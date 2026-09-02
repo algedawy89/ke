@@ -1,0 +1,44 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}{{ branch.name }}{% endblock %}
+{% block page_title %}{{ branch.name }}{% endblock %}
+{% block page_subtitle %}{{ branch.code }}{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 space-y-6">
+        <div class="bg-white rounded-2xl p-6 card-shadow">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">معلومات الفرع</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">الاسم</p><p class="font-bold text-gray-800">{{ branch.name }}</p></div>
+                <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">الكود</p><p class="font-bold text-gray-800">{{ branch.code }}</p></div>
+                <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">العنوان</p><p class="font-bold text-gray-800">{{ branch.address|default:"-" }}</p></div>
+                <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">المدينة</p><p class="font-bold text-gray-800">{{ branch.city|default:"-" }}</p></div>
+                <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">الهاتف</p><p class="font-bold text-gray-800">{{ branch.phone|default:"-" }}</p></div>
+                <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">المدير</p><p class="font-bold text-gray-800">{{ branch.manager.full_name|default:"-" }}</p></div>
+            </div>
+        </div>
+        <div class="bg-white rounded-2xl p-6 card-shadow">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">آخر العمليات</h3>
+            <table class="w-full">
+                <thead><tr class="border-b border-gray-100"><th class="text-right py-2 text-gray-400 text-xs">المبلغ</th><th class="text-right py-2 text-gray-400 text-xs">المحفظة</th><th class="text-right py-2 text-gray-400 text-xs">الكاشير</th><th class="text-right py-2 text-gray-400 text-xs">الوقت</th></tr></thead>
+                <tbody>
+                    {% for t in recent_transactions %}
+                    <tr class="border-b border-gray-50"><td class="py-2 font-bold text-primary">{{ t.amount }} ر.ي</td><td class="py-2 text-sm">{{ t.wallet.name }}</td><td class="py-2 text-sm">{{ t.cashier.full_name }}</td><td class="py-2 text-xs text-gray-400">{{ t.created_at|timesince }}</td></tr>
+                    {% empty %}<tr><td colspan="4" class="py-4 text-center text-gray-400">لا توجد عمليات</td></tr>{% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="space-y-6">
+        <div class="bg-white rounded-2xl p-6 card-shadow">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">الإحصائيات</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between p-3 bg-gray-50 rounded-xl"><span class="text-gray-500">اليوم</span><span class="font-bold text-primary">{{ today_count }} / {{ today_total|floatformat:2 }} ر.ي</span></div>
+                <div class="flex justify-between p-3 bg-gray-50 rounded-xl"><span class="text-gray-500">الشهر</span><span class="font-bold text-primary">{{ month_count }} / {{ month_total|floatformat:2 }} ر.ي</span></div>
+                <div class="flex justify-between p-3 bg-gray-50 rounded-xl"><span class="text-gray-500">الكواشير</span><span class="font-bold">{{ cashiers.count }}</span></div>
+                <div class="flex justify-between p-3 bg-gray-50 rounded-xl"><span class="text-gray-500">المحافظ</span><span class="font-bold">{{ wallets.count }}</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

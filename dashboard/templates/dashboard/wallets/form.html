@@ -1,0 +1,21 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto"><div class="bg-white rounded-2xl p-8 card-shadow">
+<form method="post" enctype="multipart/form-data" class="space-y-6">{% csrf_token %}
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div><label class="block text-gray-700 font-semibold mb-2">اسم المحفظة</label><input type="text" name="name" value="{{ form.name.value|default:'' }}" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"></div>
+<div><label class="block text-gray-700 font-semibold mb-2">الاسم الإنجليزي</label><input type="text" name="name_en" value="{{ form.name_en.value|default:'' }}" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"></div>
+<div><label class="block text-gray-700 font-semibold mb-2">كود المحفظة</label><input type="text" name="wallet_code" value="{{ form.wallet_code.value|default:'' }}" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"></div>
+<div><label class="block text-gray-700 font-semibold mb-2">رقم الهاتف</label><input type="text" name="phone_number" value="{{ form.phone_number.value|default:'' }}" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"></div>
+<div class="md:col-span-2"><label class="block text-gray-700 font-semibold mb-2">الشعار</label><input type="file" name="logo" accept="image/*" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"></div>
+<div class="md:col-span-2"><label class="block text-gray-700 font-semibold mb-2">الكلمات المفتاحية</label><textarea name="keywords" rows="2" placeholder="جيب, jaib, محفظة جيب" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary">{{ form.keywords.value|default:'' }}</textarea></div>
+<div><label class="block text-gray-700 font-semibold mb-2">الفرع</label><select name="branch" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"><option value="">-- اختر --</option>{% for b in branches %}<option value="{{ b.id }}" {% if form.branch.value == b.id|stringformat:'s' %}selected{% endif %}>{{ b.name }}</option>{% endfor %}</select></div>
+<div class="flex items-center gap-3"><input type="checkbox" name="is_active" {% if form.is_active.value %}checked{% endif %} class="w-5 h-5 text-primary"><label class="text-gray-700">نشطة</label></div>
+</div>
+<div class="flex gap-3 pt-4"><button type="submit" class="btn-primary text-white px-8 py-3 rounded-xl font-bold">حفظ</button><a href="{% url 'dashboard:wallet_list' %}" class="px-8 py-3 border border-gray-200 rounded-xl font-bold text-gray-600 hover:bg-gray-50">إلغاء</a></div>
+</form>
+</div></div>
+{% endblock %}

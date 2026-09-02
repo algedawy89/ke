@@ -1,0 +1,29 @@
+{% extends 'dashboard/base.html' %}{% block title %}التقارير{% endblock %}{% block page_title %}التقارير والإحصائيات{% endblock %}
+{% block content %}
+<div class="bg-white rounded-2xl p-6 card-shadow mb-6">
+    <form method="get" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <input type="date" name="date_from" value="{{ date_from }}" class="px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-primary">
+        <input type="date" name="date_to" value="{{ date_to }}" class="px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-primary">
+        <select name="branch" class="px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"><option value="">كل الفروع</option>{% for b in branches %}<option value="{{ b.id }}" {% if branch_filter == b.id|stringformat:'s' %}selected{% endif %}>{{ b.name }}</option>{% endfor %}</select>
+        <select name="wallet" class="px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"><option value="">كل المحافظ</option>{% for w in wallets %}<option value="{{ w.id }}" {% if wallet_filter == w.id|stringformat:'s' %}selected{% endif %}>{{ w.name }}</option>{% endfor %}</select>
+        <div class="flex gap-2"><button type="submit" class="btn-primary text-white px-6 py-2 rounded-xl font-bold flex-1">عرض</button><a href="{% url 'dashboard:report_export' %}?{{ request.GET.urlencode }}" class="btn-secondary text-gray-800 px-6 py-2 rounded-xl font-bold flex items-center justify-center gap-2"><i class="fas fa-download"></i> تصدير</a></div>
+    </form>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <div class="bg-white rounded-2xl p-6 card-shadow text-center"><p class="text-gray-500 mb-2">إجمالي المبالغ</p><p class="text-3xl font-bold text-primary">{{ total_amount|floatformat:2 }} ر.ي</p></div>
+    <div class="bg-white rounded-2xl p-6 card-shadow text-center"><p class="text-gray-500 mb-2">عدد العمليات</p><p class="text-3xl font-bold text-primary">{{ total_count }}</p></div>
+    <div class="bg-white rounded-2xl p-6 card-shadow text-center"><p class="text-gray-500 mb-2">متوسط المبلغ</p><p class="text-3xl font-bold text-primary">{{ avg_amount|floatformat:2 }} ر.ي</p></div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white rounded-2xl p-6 card-shadow"><h3 class="text-lg font-bold text-gray-800 mb-4">حسب المحفظة</h3>
+        <table class="w-full"><thead><tr class="border-b border-gray-100"><th class="text-right py-2 text-gray-400 text-xs">المحفظة</th><th class="text-right py-2 text-gray-400 text-xs">العمليات</th><th class="text-right py-2 text-gray-400 text-xs">المبلغ</th></tr></thead>
+        <tbody>{% for w in by_wallet %}<tr class="border-b border-gray-50"><td class="py-2 text-sm font-medium">{{ w.wallet__name }}</td><td class="py-2 text-sm">{{ w.count }}</td><td class="py-2 font-bold text-primary">{{ w.total|floatformat:2 }} ر.ي</td></tr>{% empty %}<tr><td colspan="3" class="py-4 text-center text-gray-400">لا توجد بيانات</td></tr>{% endfor %}</tbody>
+        </table>
+    </div>
+    <div class="bg-white rounded-2xl p-6 card-shadow"><h3 class="text-lg font-bold text-gray-800 mb-4">حسب الفرع</h3>
+        <table class="w-full"><thead><tr class="border-b border-gray-100"><th class="text-right py-2 text-gray-400 text-xs">الفرع</th><th class="text-right py-2 text-gray-400 text-xs">العمليات</th><th class="text-right py-2 text-gray-400 text-xs">المبلغ</th></tr></thead>
+        <tbody>{% for b in by_branch %}<tr class="border-b border-gray-50"><td class="py-2 text-sm font-medium">{{ b.branch__name }}</td><td class="py-2 text-sm">{{ b.count }}</td><td class="py-2 font-bold text-primary">{{ b.total|floatformat:2 }} ر.ي</td></tr>{% empty %}<tr><td colspan="3" class="py-4 text-center text-gray-400">لا توجد بيانات</td></tr>{% endfor %}</tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

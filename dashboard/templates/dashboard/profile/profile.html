@@ -1,0 +1,27 @@
+{% extends 'dashboard/base.html' %}{% block title %}الملف الشخصي{% endblock %}{% block page_title %}الملف الشخصي{% endblock %}
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-2xl p-8 card-shadow text-center mb-6">
+        <div class="w-24 h-24 mx-auto bg-primary/10 rounded-full flex items-center justify-center mb-4">
+            {% if user_obj.profile_image %}<img src="{{ user_obj.profile_image.url }}" class="w-24 h-24 rounded-full object-cover">{% else %}<i class="fas fa-user text-4xl text-primary"></i>{% endif %}
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800">{{ user_obj.full_name }}</h2>
+        <p class="text-gray-500">{{ user_obj.get_role_display }}</p>
+        <div class="flex justify-center gap-3 mt-4">
+            <a href="{% url 'dashboard:profile_edit' %}" class="btn-primary text-white px-6 py-2 rounded-xl font-bold"><i class="fas fa-edit mr-2"></i>تعديل</a>
+            <a href="{% url 'dashboard:change_password' %}" class="px-6 py-2 border border-gray-200 rounded-xl font-bold text-gray-600 hover:bg-gray-50"><i class="fas fa-lock mr-2"></i>تغيير كلمة المرور</a>
+        </div>
+    </div>
+    <div class="bg-white rounded-2xl p-6 card-shadow">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">آخر الأنشطة</h3>
+        <div class="space-y-3">
+            {% for log in activity_logs %}
+            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+                <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center"><i class="fas fa-history text-primary text-sm"></i></div>
+                <div><p class="text-sm text-gray-800">{{ log.get_action_display }} - {{ log.entity_type }}</p><p class="text-xs text-gray-400">{{ log.timestamp|timesince }} مضت</p></div>
+            </div>
+            {% empty %}<p class="text-center text-gray-400 py-4">لا توجد أنشطة</p>{% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

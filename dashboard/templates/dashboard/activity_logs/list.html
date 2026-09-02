@@ -1,0 +1,18 @@
+{% extends 'dashboard/base.html' %}{% block title %}سجل النشاط{% endblock %}{% block page_title %}سجل النشاط{% endblock %}
+{% block content %}
+<div class="bg-white rounded-2xl p-6 card-shadow mb-6">
+    <form method="get" class="flex gap-2 flex-wrap">
+        <select name="user" class="px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"><option value="">كل المستخدمين</option>{% for u in users %}<option value="{{ u.id }}" {% if user_filter == u.id|stringformat:'s' %}selected{% endif %}>{{ u.full_name }}</option>{% endfor %}</select>
+        <select name="action" class="px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"><option value="">كل الإجراءات</option>{% for a in actions %}<option value="{{ a.0 }}" {% if action_filter == a.0 %}selected{% endif %}>{{ a.1 }}</option>{% endfor %}</select>
+        <input type="date" name="date_from" value="{{ date_from }}" class="px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-primary">
+        <input type="date" name="date_to" value="{{ date_to }}" class="px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-primary">
+        <button type="submit" class="btn-primary text-white px-6 py-2 rounded-xl font-bold">بحث</button>
+    </form>
+</div>
+<div class="bg-white rounded-2xl card-shadow overflow-hidden">
+    <table class="w-full">
+        <thead class="bg-gray-50"><tr><th class="text-right py-4 px-6 text-gray-500 font-medium text-sm">المستخدم</th><th class="text-right py-4 px-6 text-gray-500 font-medium text-sm">الإجراء</th><th class="text-right py-4 px-6 text-gray-500 font-medium text-sm">الكيان</th><th class="text-right py-4 px-6 text-gray-500 font-medium text-sm">الوصف</th><th class="text-right py-4 px-6 text-gray-500 font-medium text-sm">الوقت</th></tr></thead>
+        <tbody>{% for log in logs %}<tr class="border-b border-gray-50 table-row-hover"><td class="py-3 px-6 text-sm font-medium">{{ log.user.full_name }}</td><td class="py-3 px-6"><span class="px-2 py-1 rounded-lg text-xs font-medium bg-gray-100 text-gray-600">{{ log.get_action_display }}</span></td><td class="py-3 px-6 text-sm text-gray-600">{{ log.entity_type }}</td><td class="py-3 px-6 text-sm text-gray-600">{{ log.description|truncatechars:50 }}</td><td class="py-3 px-6 text-xs text-gray-400">{{ log.timestamp|date:"Y-m-d H:i" }}</td></tr>{% empty %}<tr><td colspan="5" class="py-12 text-center text-gray-400"><i class="fas fa-inbox text-4xl mb-3"></i><p>لا توجد سجلات</p></td></tr>{% endfor %}</tbody>
+    </table>
+</div>
+{% endblock %}

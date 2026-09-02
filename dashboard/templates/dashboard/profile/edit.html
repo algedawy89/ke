@@ -1,0 +1,14 @@
+{% extends 'dashboard/base.html' %}{% block title %}تعديل الملف الشخصي{% endblock %}{% block page_title %}تعديل الملف الشخصي{% endblock %}
+{% block content %}
+<div class="max-w-2xl mx-auto"><div class="bg-white rounded-2xl p-8 card-shadow">
+<form method="post" enctype="multipart/form-data" class="space-y-6">{% csrf_token %}
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div><label class="block text-gray-700 font-semibold mb-2">الاسم الكامل</label><input type="text" name="full_name" value="{{ form.full_name.value|default:'' }}" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"></div>
+<div><label class="block text-gray-700 font-semibold mb-2">البريد الإلكتروني</label><input type="email" name="email" value="{{ form.email.value|default:'' }}" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"></div>
+<div><label class="block text-gray-700 font-semibold mb-2">رقم الهاتف</label><input type="text" name="phone" value="{{ form.phone.value|default:'' }}" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"></div>
+<div class="md:col-span-2"><label class="block text-gray-700 font-semibold mb-2">الصورة الشخصية</label><input type="file" name="profile_image" accept="image/*" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"></div>
+</div>
+<div class="flex gap-3 pt-4"><button type="submit" class="btn-primary text-white px-8 py-3 rounded-xl font-bold">حفظ</button><a href="{% url 'dashboard:profile' %}" class="px-8 py-3 border border-gray-200 rounded-xl font-bold text-gray-600 hover:bg-gray-50">إلغاء</a></div>
+</form>
+</div></div>
+{% endblock %}

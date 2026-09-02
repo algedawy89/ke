@@ -1,0 +1,26 @@
+{% extends 'dashboard/base.html' %}{% block title %}{{ transaction.transaction_id }}{% endblock %}{% block page_title %}تفاصيل العملية{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto">
+    <div class="bg-white rounded-2xl p-8 card-shadow mb-6">
+        <div class="flex items-center justify-between mb-6">
+            <div><h3 class="text-xl font-bold text-gray-800">{{ transaction.transaction_id }}</h3><p class="text-gray-500">{{ transaction.created_at|date:"l، d F Y - H:i" }}</p></div>
+            <span class="px-4 py-2 rounded-xl text-sm font-bold {% if transaction.status == 'completed' %}bg-green-100 text-green-600{% elif transaction.status == 'pending' %}bg-yellow-100 text-yellow-600{% else %}bg-red-100 text-red-600{% endif %}">{{ transaction.get_status_display }}</span>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">المبلغ</p><p class="text-2xl font-bold text-primary">{{ transaction.amount|floatformat:2 }} ر.ي</p></div>
+            <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">المحفظة</p><p class="font-bold text-gray-800">{{ transaction.wallet.name }}</p></div>
+            <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">الكاشير</p><p class="font-bold text-gray-800">{{ transaction.cashier.full_name }}</p></div>
+            <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">الفرع</p><p class="font-bold text-gray-800">{{ transaction.branch.name }}</p></div>
+            <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">رقم مرجعي</p><p class="font-bold text-gray-800">{{ transaction.payment_reference|default:"-" }}</p></div>
+            <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">الوردية</p><p class="font-bold text-gray-800">{{ transaction.shift_session.shift.name|default:"-" }}</p></div>
+        </div>
+        {% if transaction.notification_image %}
+        <div class="mb-4"><p class="text-sm text-gray-500 mb-2">صورة الإشعار</p><img src="{{ transaction.notification_image.url }}" class="max-w-md rounded-xl border border-gray-200"></div>
+        {% endif %}
+        {% if transaction.notes %}<div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">ملاحظات</p><p class="text-gray-800">{{ transaction.notes }}</p></div>{% endif %}
+    </div>
+    <div class="bg-white rounded-2xl p-6 card-shadow"><h3 class="text-lg font-bold text-gray-800 mb-4">سجل التعديلات</h3>
+        <div class="space-y-3">{% for log in logs %}<div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl"><div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center"><i class="fas fa-history text-primary text-sm"></i></div><div><p class="text-sm text-gray-800">{{ log.get_action_display }} بواسطة {{ log.user.full_name }}</p><p class="text-xs text-gray-400">{{ log.timestamp|timesince }} مضت</p></div></div>{% empty %}<p class="text-center text-gray-400 py-4">لا توجد تعديلات</p>{% endfor %}</div>
+    </div>
+</div>
+{% endblock %}

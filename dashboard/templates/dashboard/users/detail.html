@@ -1,0 +1,31 @@
+{% extends 'dashboard/base.html' %}{% block title %}{{ user_obj.full_name }}{% endblock %}{% block page_title %}{{ user_obj.full_name }}{% endblock %}{% block page_subtitle %}{{ user_obj.get_role_display }}{% endblock %}
+{% block content %}
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 space-y-6">
+        <div class="bg-white rounded-2xl p-6 card-shadow">
+            <div class="flex items-center gap-4 mb-6">
+                {% if user_obj.profile_image %}<img src="{{ user_obj.profile_image.url }}" class="w-20 h-20 rounded-full object-cover">{% else %}<div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center"><i class="fas fa-user text-3xl text-primary"></i></div>{% endif %}
+                <div><h3 class="text-xl font-bold text-gray-800">{{ user_obj.full_name }}</h3><p class="text-gray-500">{{ user_obj.username }} | {{ user_obj.phone }}</p></div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">البريد</p><p class="font-bold text-gray-800">{{ user_obj.email|default:"-" }}</p></div>
+                <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">الفرع</p><p class="font-bold text-gray-800">{{ user_obj.branch.name|default:"-" }}</p></div>
+                <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">تاريخ الانضمام</p><p class="font-bold text-gray-800">{{ user_obj.date_joined|date:"Y-m-d" }}</p></div>
+                <div class="p-4 bg-gray-50 rounded-xl"><p class="text-sm text-gray-500">آخر دخول</p><p class="font-bold text-gray-800">{{ user_obj.last_login|default:"-" }}</p></div>
+            </div>
+        </div>
+        {% if user_obj.role == 'cashier' %}
+        <div class="bg-white rounded-2xl p-6 card-shadow"><h3 class="text-lg font-bold text-gray-800 mb-4">آخر العمليات</h3>
+            <table class="w-full"><thead><tr class="border-b border-gray-100"><th class="text-right py-2 text-gray-400 text-xs">المبلغ</th><th class="text-right py-2 text-gray-400 text-xs">المحفظة</th><th class="text-right py-2 text-gray-400 text-xs">الوقت</th></tr></thead>
+            <tbody>{% for t in transactions %}<tr class="border-b border-gray-50"><td class="py-2 font-bold text-primary">{{ t.amount }} ر.ي</td><td class="py-2 text-sm">{{ t.wallet.name }}</td><td class="py-2 text-xs text-gray-400">{{ t.created_at|timesince }}</td></tr>{% empty %}<tr><td colspan="3" class="py-4 text-center text-gray-400">لا توجد عمليات</td></tr>{% endfor %}</tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+    <div class="space-y-6">
+        <div class="bg-white rounded-2xl p-6 card-shadow"><h3 class="text-lg font-bold text-gray-800 mb-4">آخر الأنشطة</h3>
+            <div class="space-y-3">{% for log in activity_logs %}<div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl"><div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center"><i class="fas fa-history text-primary text-sm"></i></div><div><p class="text-sm text-gray-800">{{ log.get_action_display }} - {{ log.entity_type }}</p><p class="text-xs text-gray-400">{{ log.timestamp|timesince }} مضت</p></div></div>{% empty %}<p class="text-center text-gray-400 py-4">لا توجد أنشطة</p>{% endfor %}</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

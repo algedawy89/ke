@@ -1,0 +1,25 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-2xl p-8 card-shadow">
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div><label class="block text-gray-700 font-semibold mb-2">اسم الفرع</label><input type="text" name="name" value="{{ form.name.value|default:'' }}" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"></div>
+                <div><label class="block text-gray-700 font-semibold mb-2">كود الفرع</label><input type="text" name="code" value="{{ form.code.value|default:'' }}" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"></div>
+                <div><label class="block text-gray-700 font-semibold mb-2">العنوان</label><input type="text" name="address" value="{{ form.address.value|default:'' }}" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"></div>
+                <div><label class="block text-gray-700 font-semibold mb-2">الهاتف</label><input type="text" name="phone" value="{{ form.phone.value|default:'' }}" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"></div>
+                <div><label class="block text-gray-700 font-semibold mb-2">البريد الإلكتروني</label><input type="email" name="email" value="{{ form.email.value|default:'' }}" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"></div>
+                <div><label class="block text-gray-700 font-semibold mb-2">المدينة</label><input type="text" name="city" value="{{ form.city.value|default:'' }}" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"></div>
+                <div><label class="block text-gray-700 font-semibold mb-2">المنطقة</label><input type="text" name="region" value="{{ form.region.value|default:'' }}" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"></div>
+                <div><label class="block text-gray-700 font-semibold mb-2">المدير</label><select name="manager" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"><option value="">-- اختر --</option>{% for s in supervisors %}<option value="{{ s.id }}" {% if form.manager.value == s.id %}selected{% endif %}>{{ s.full_name }}</option>{% endfor %}</select></div>
+                <div class="flex items-center gap-3"><input type="checkbox" name="is_active" {% if form.is_active.value %}checked{% endif %} class="w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary"><label class="text-gray-700">نشط</label></div>
+            </div>
+            <div class="flex gap-3 pt-4"><button type="submit" class="btn-primary text-white px-8 py-3 rounded-xl font-bold">حفظ</button><a href="{% url 'dashboard:branch_list' %}" class="px-8 py-3 border border-gray-200 rounded-xl font-bold text-gray-600 hover:bg-gray-50 transition-colors">إلغاء</a></div>
+        </form>
+    </div>
+</div>
+{% endblock %}

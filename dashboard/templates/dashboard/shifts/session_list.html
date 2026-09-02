@@ -1,0 +1,29 @@
+{% extends 'dashboard/base.html' %}{% block title %}جلسات الورديات{% endblock %}{% block page_title %}جلسات الورديات{% endblock %}
+{% block content %}
+<div class="bg-white rounded-2xl p-6 card-shadow mb-6">
+    <form method="get" class="flex gap-2 flex-wrap">
+        <select name="status" class="px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"><option value="">كل الحالات</option>{% for s in statuses %}<option value="{{ s.0 }}" {% if status_filter == s.0 %}selected{% endif %}>{{ s.1 }}</option>{% endfor %}</select>
+        <select name="branch" class="px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"><option value="">كل الفروع</option>{% for b in branches %}<option value="{{ b.id }}" {% if branch_filter == b.id|stringformat:'s' %}selected{% endif %}>{{ b.name }}</option>{% endfor %}</select>
+        <button type="submit" class="btn-primary text-white px-6 py-2 rounded-xl font-bold">بحث</button>
+    </form>
+</div>
+<div class="bg-white rounded-2xl card-shadow overflow-hidden">
+    <table class="w-full">
+        <thead class="bg-gray-50"><tr><th class="text-right py-4 px-6 text-gray-500 font-medium text-sm">الوردية</th><th class="text-right py-4 px-6 text-gray-500 font-medium text-sm">الكاشير</th><th class="text-right py-4 px-6 text-gray-500 font-medium text-sm">الفرع</th><th class="text-right py-4 px-6 text-gray-500 font-medium text-sm">فتحت</th><th class="text-right py-4 px-6 text-gray-500 font-medium text-sm">أغلقت</th><th class="text-right py-4 px-6 text-gray-500 font-medium text-sm">المبلغ</th><th class="text-right py-4 px-6 text-gray-500 font-medium text-sm">الحالة</th><th class="text-right py-4 px-6 text-gray-500 font-medium text-sm">الإجراءات</th></tr></thead>
+        <tbody>
+            {% for session in sessions %}
+            <tr class="border-b border-gray-50 table-row-hover">
+                <td class="py-4 px-6 font-bold text-gray-800">{{ session.shift.name }}</td>
+                <td class="py-4 px-6 text-sm">{{ session.cashier.full_name }}</td>
+                <td class="py-4 px-6 text-sm text-gray-600">{{ session.branch.name }}</td>
+                <td class="py-4 px-6 text-sm text-gray-600">{{ session.opened_at|date:"Y-m-d H:i" }}</td>
+                <td class="py-4 px-6 text-sm text-gray-600">{{ session.closed_at|date:"Y-m-d H:i"|default:"-" }}</td>
+                <td class="py-4 px-6 font-bold text-primary">{{ session.total_amount|floatformat:2 }} ر.ي</td>
+                <td class="py-4 px-6">{% if session.status == 'open' %}<span class="status-badge status-active">مفتوحة</span>{% elif session.status == 'closed' %}<span class="status-badge status-inactive">مغلقة</span>{% elif session.status == 'reopened' %}<span class="status-badge" style="background:#dbeafe;color:#1e40af;">تم إعادة فتحها</span>{% else %}<span class="status-badge status-pending">بانتظار المراجعة</span>{% endif %}</td>
+                <td class="py-4 px-6">{% if session.status == 'closed' %}<form method="post" action="{% url 'dashboard:shift_session_reopen' session.pk %}" class="inline">{% csrf_token %}<input type="hidden" name="reason" value="إعادة فتح بواسطة المدير"><button type="submit" class="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100" title="إعادة فتح"><i class="fas fa-redo"></i></button></form>{% endif %}</td>
+            </tr>
+            {% empty %}<tr><td colspan="8" class="py-12 text-center text-gray-400"><i class="fas fa-inbox text-4xl mb-3"></i><p>لا توجد جلسات</p></td></tr>{% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'dashboard/base.html' %}{% block title %}العمليات{% endblock %}{% block page_title %}سجل العمليات{% endblock %}
+{% block content %}
+<div class="bg-white rounded-2xl p-6 card-shadow mb-6">
+    <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <input type="text" name="q" value="{{ search_query }}" placeholder="بحث برقم العملية..." class="px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-primary">
+        <select name="branch" class="px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-primary"><option value="">كل الفروع</option>{% for b in branches %}<option value="{{ b.id }}" {% if branch_filter == b.id|stringformat:'s' %}selected{% endif %}>{{ b.name }}</option>{% endfor %}</select>
+        <input type="date" name="date_from" value="{{ date_from }}" class="px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-primary">
+        <input type="date" name="date_to" value="{{ date_to }}" class="px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-primary">
+        <button type="submit" class="btn-primary text-white px-6 py-2 rounded-xl font-bold md:col-span-4">بحث</button>
+    </form>
+    <div class="flex gap-6 mt-4 pt-4 border-t border-gray-100">
+        <div><p class="text-sm text-gray-500">إجمالي العمليات</p><p class="text-2xl font-bold text-primary">{{ total_count }}</p></div>
+        <div><p class="text-sm text-gray-500">إجمالي المبالغ</p><p class="text-2xl font-bold text-primary">{{ total_amount|floatformat:2 }} ر.ي</p></div>
+    </div>
+</div>
+<div class="bg-white rounded-2xl card-shadow overflow-hidden">
+    <table class="w-full">
+        <thead class="bg-gray-50"><tr><th class="text-right py-4 px-4 text-gray-500 font-medium text-sm">رقم العملية</th><th class="text-right py-4 px-4 text-gray-500 font-medium text-sm">المبلغ</th><th class="text-right py-4 px-4 text-gray-500 font-medium text-sm">المحفظة</th><th class="text-right py-4 px-4 text-gray-500 font-medium text-sm">الكاشير</th><th class="text-right py-4 px-4 text-gray-500 font-medium text-sm">الفرع</th><th class="text-right py-4 px-4 text-gray-500 font-medium text-sm">الوقت</th></tr></thead>
+        <tbody>
+            {% for t in transactions %}
+            <tr class="border-b border-gray-50 table-row-hover">
+                <td class="py-3 px-4 text-sm font-mono text-gray-600">{{ t.transaction_id }}</td>
+                <td class="py-3 px-4 font-bold text-primary">{{ t.amount|floatformat:2 }} ر.ي</td>
+                <td class="py-3 px-4 text-sm">{{ t.wallet.name }}</td>
+                <td class="py-3 px-4 text-sm">{{ t.cashier.full_name }}</td>
+                <td class="py-3 px-4 text-sm">{{ t.branch.name }}</td>
+                <td class="py-3 px-4 text-xs text-gray-400">{{ t.created_at|date:"Y-m-d H:i" }}</td>
+            </tr>
+            {% empty %}<tr><td colspan="6" class="py-12 text-center text-gray-400"><i class="fas fa-inbox text-4xl mb-3"></i><p>لا توجد عمليات</p></td></tr>{% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

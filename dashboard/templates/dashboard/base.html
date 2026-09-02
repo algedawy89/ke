@@ -1,0 +1,268 @@
+{% load static %}
+{% load dashboard_tags %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <!-- Non-scalable viewport - fixed width per device -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#228C5B">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
+
+    <title>{% block title %}لوحة التحكم{% endblock %} - نظام تقارير الدفع الإلكتروني</title>
+
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static "images/logo.png" %}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{% static "images/logo.png" %}">
+
+    <link rel="shortcut icon" href="{% static "images/logo.png" %}" type="image/x-icon">
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#228C5B',
+                        'primary-dark': '#1a6d47',
+                        'primary-light': '#2db574',
+                        secondary: '#FCD761',
+                        'secondary-dark': '#e5c255',
+                        'secondary-light': '#fde89a',
+                    },
+                    fontFamily: {
+                        'tajawal': ['Tajawal', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts - Tajawal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="{% static "css/dashboard.css" %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- Sidebar Overlay (Mobile) -->
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <div class="dashboard-wrapper">
+
+        <!-- ============================================
+             SIDEBAR
+             ============================================ -->
+        <aside id="sidebar" class="sidebar">
+
+            <!-- Sidebar Header / Logo -->
+            <div class="sidebar-header">
+                <a href="{% url 'dashboard:home' %}" class="sidebar-brand">
+                    <div class="sidebar-brand-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="sidebar-brand-text">
+                        <h2>نظام الدفع</h2>
+                        <p>الإلكتروني</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- User Info -->
+            <div class="sidebar-user">
+                <div class="sidebar-user-inner">
+                    <div class="sidebar-user-avatar">
+                        {% if request.user.profile_image %}
+                            <img src="{{ request.user.profile_image.url }}" alt="{{ request.user.full_name }}">
+                        {% else %}
+                            <i class="fas fa-user"></i>
+                        {% endif %}
+                    </div>
+                    <div class="sidebar-user-info">
+                        <p class="sidebar-user-name">{{ request.user.full_name|default:"المستخدم" }}</p>
+                        <p class="sidebar-user-role">{{ request.user.get_role_display|default:"مدير" }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+
+                <p class="nav-section-title">القائمة الرئيسية</p>
+
+                <a href="{% url 'dashboard:home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                    <span class="nav-link-icon"><i class="fas fa-home {% if request.resolver_match.url_name == 'home' %}text-primary{% else %}text-muted{% endif %}"></i></span>
+                    <span>الرئيسية</span>
+                </a>
+
+                <a href="{% url 'dashboard:transaction_list' %}" class="nav-link {% if 'transaction' in request.resolver_match.url_name %}active{% endif %}">
+                    <span class="nav-link-icon"><i class="fas fa-exchange-alt {% if 'transaction' in request.resolver_match.url_name %}text-primary{% else %}text-muted{% endif %}"></i></span>
+                    <span>العمليات</span>
+                    <span class="nav-link-badge">{{ request|transaction_count|default:"0" }}</span>
+                </a>
+
+                <a href="{% url 'dashboard:reports' %}" class="nav-link {% if 'report' in request.resolver_match.url_name %}active{% endif %}">
+                    <span class="nav-link-icon"><i class="fas fa-chart-bar {% if 'report' in request.resolver_match.url_name %}text-primary{% else %}text-muted{% endif %}"></i></span>
+                    <span>التقارير</span>
+                </a>
+
+                <p class="nav-section-title">الإدارة</p>
+
+                <a href="{% url 'dashboard:branch_list' %}" class="nav-link {% if 'branch' in request.resolver_match.url_name %}active{% endif %}">
+                    <span class="nav-link-icon"><i class="fas fa-store {% if 'branch' in request.resolver_match.url_name %}text-primary{% else %}text-muted{% endif %}"></i></span>
+                    <span>الفروع</span>
+                </a>
+
+                <a href="{% url 'dashboard:wallet_list' %}" class="nav-link {% if 'wallet' in request.resolver_match.url_name %}active{% endif %}">
+                    <span class="nav-link-icon"><i class="fas fa-credit-card {% if 'wallet' in request.resolver_match.url_name %}text-primary{% else %}text-muted{% endif %}"></i></span>
+                    <span>المحافظ</span>
+                </a>
+
+                <a href="{% url 'dashboard:shift_list' %}" class="nav-link {% if 'shift' in request.resolver_match.url_name %}active{% endif %}">
+                    <span class="nav-link-icon"><i class="fas fa-clock {% if 'shift' in request.resolver_match.url_name %}text-primary{% else %}text-muted{% endif %}"></i></span>
+                    <span>الورديات</span>
+                </a>
+
+                <a href="{% url 'dashboard:user_list' %}" class="nav-link {% if 'user' in request.resolver_match.url_name %}active{% endif %}">
+                    <span class="nav-link-icon"><i class="fas fa-users {% if 'user' in request.resolver_match.url_name %}text-primary{% else %}text-muted{% endif %}"></i></span>
+                    <span>المستخدمين</span>
+                </a>
+
+                <p class="nav-section-title">النظام</p>
+
+                <a href="{% url 'dashboard:activity_logs' %}" class="nav-link {% if 'activity' in request.resolver_match.url_name %}active{% endif %}">
+                    <span class="nav-link-icon"><i class="fas fa-history {% if 'activity' in request.resolver_match.url_name %}text-primary{% else %}text-muted{% endif %}"></i></span>
+                    <span>سجل النشاط</span>
+                </a>
+
+                <a href="{% url 'dashboard:settings' %}" class="nav-link {% if 'settings' in request.resolver_match.url_name %}active{% endif %}">
+                    <span class="nav-link-icon"><i class="fas fa-cog {% if 'settings' in request.resolver_match.url_name %}text-primary{% else %}text-muted{% endif %}"></i></span>
+                    <span>الإعدادات</span>
+                </a>
+            </nav>
+
+            <!-- Sidebar Footer -->
+            <div class="sidebar-footer">
+                <a href="{% url 'dashboard:profile' %}" class="sidebar-footer-btn">
+                    <i class="fas fa-user-circle text-muted"></i>
+                    <span>الملف الشخصي</span>
+                </a>
+                <form method="post" action="{% url 'dashboard:logout' %}" style="margin:0;">
+                    {% csrf_token %}
+                    <button type="submit" class="sidebar-footer-btn logout" data-confirm="هل أنت متأكد من تسجيل الخروج؟">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>تسجيل الخروج</span>
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- ============================================
+             MAIN CONTENT
+             ============================================ -->
+        <main class="main-content">
+
+            <!-- Top Header -->
+            <header class="top-header">
+                <button id="sidebarToggle" class="header-toggle" aria-label="فتح القائمة" title="القائمة">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="header-title-group">
+                    <h1 class="header-title">{% block page_title %}لوحة التحكم{% endblock %}</h1>
+                    <p class="header-subtitle">{% block page_subtitle %}{% endblock %}</p>
+                </div>
+
+                <div class="header-actions">
+                    <div class="header-date">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>{{ now|date:"l، d F Y" }}</span>
+                    </div>
+
+                    <button class="header-btn" data-tooltip="الإشعارات" aria-label="الإشعارات">
+                        <i class="fas fa-bell"></i>
+                        <span class="dot"></span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Alerts / Messages -->
+            {% if messages %}
+            <div class="alert-container">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }}">
+                    <i class="fas {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-circle{% else %}fa-info-circle{% endif %}"></i>
+                    <span>{{ message }}</span>
+                    <button type="button" class="alert-close" aria-label="إغلاق">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Page Content -->
+            <div class="page-content animate-fade-in">
+                {% block content %}{% endblock %}
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="العودة للأعلى" title="العودة للأعلى" style="
+        position: fixed;
+        bottom: 24px;
+        left: 24px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #228C5B 0%, #1a6d47 100%);
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 14px rgba(34, 140, 91, 0.4);
+        z-index: 800;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+    ">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <style>
+        .scroll-top-btn.visible {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateY(0) !important;
+        }
+        .scroll-top-btn:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(34, 140, 91, 0.5);
+        }
+    </style>
+
+    <!-- Main JavaScript -->
+    <script src="{% static "js/dashboard_.js" %}"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

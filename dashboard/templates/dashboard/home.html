@@ -1,0 +1,335 @@
+{% extends 'dashboard/base.html' %}
+{% load dashboard_tags %}
+
+{% block title %}الرئيسية{% endblock %}
+{% block page_title %}لوحة التحكم{% endblock %}
+{% block page_subtitle %}نظرة عامة على النظام{% endblock %}
+
+{% block content %}
+
+<!-- Stats Cards -->
+<div class="grid-stats">
+    <!-- Total Branches -->
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <div class="stat-card-icon primary">
+                <i class="fas fa-store"></i>
+            </div>
+            <span class="stat-card-badge success">{{ active_branches|default:"0" }}/{{ total_branches|default:"0" }}</span>
+        </div>
+        <div class="stat-card-body">
+            <div class="stat-card-value">{{ total_branches|default:"0" }}</div>
+            <div class="stat-card-label">إجمالي الفروع</div>
+        </div>
+    </div>
+
+    <!-- Cashiers -->
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <div class="stat-card-icon secondary">
+                <i class="fas fa-users"></i>
+            </div>
+            <span class="stat-card-badge success">{{ active_cashiers|default:"0" }} نشط</span>
+        </div>
+        <div class="stat-card-body">
+            <div class="stat-card-value">{{ total_cashiers|default:"0" }}</div>
+            <div class="stat-card-label">الكواشير</div>
+        </div>
+    </div>
+
+    <!-- Today's Transactions -->
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <div class="stat-card-icon blue">
+                <i class="fas fa-exchange-alt"></i>
+            </div>
+            <span class="stat-card-badge neutral">اليوم</span>
+        </div>
+        <div class="stat-card-body">
+            <div class="stat-card-value">{{ today_transactions_count|default:"0" }}</div>
+            <div class="stat-card-label">عمليات اليوم</div>
+        </div>
+    </div>
+
+    <!-- Today's Amount -->
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <div class="stat-card-icon purple">
+                <i class="fas fa-money-bill-wave"></i>
+            </div>
+            <span class="stat-card-badge success">اليوم</span>
+        </div>
+        <div class="stat-card-body">
+            <div class="stat-card-value">{{ today_total_amount|default:"0"|floatformat:2 }} <small style="font-size:14px;font-weight:500;">ر.ي</small></div>
+            <div class="stat-card-label">إجمالي اليوم</div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="grid-charts">
+    <!-- Daily Chart -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">إحصائيات آخر 7 أيام</h3>
+            <div class="chart-legend">
+                <div class="chart-legend-item">
+                    <span class="chart-legend-dot" style="background:#228C5B;"></span>
+                    <span>المبالغ</span>
+                </div>
+                <div class="chart-legend-item">
+                    <span class="chart-legend-dot" style="background:#FCD761;"></span>
+                    <span>العمليات</span>
+                </div>
+            </div>
+        </div>
+        <div class="chart-container">
+            <canvas id="dailyChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Monthly Summary -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">ملخص الشهر</h3>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+
+            <div class="list-item">
+                <div class="list-item-main">
+                    <div class="list-item-icon primary">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <div class="list-item-info">
+                        <p class="list-item-title">عمليات الشهر</p>
+                        <p class="list-item-subtitle">إجمالي العمليات المسجلة</p>
+                    </div>
+                </div>
+                <span class="list-item-value">{{ month_transactions_count|default:"0" }}</span>
+            </div>
+
+            <div class="list-item">
+                <div class="list-item-main">
+                    <div class="list-item-icon yellow">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="list-item-info">
+                        <p class="list-item-title">مبالغ الشهر</p>
+                        <p class="list-item-subtitle">إجمالي المبالغ المحصلة</p>
+                    </div>
+                </div>
+                <span class="list-item-value">{{ month_total_amount|default:"0"|floatformat:2 }} <small style="font-size:11px;">ر.ي</small></span>
+            </div>
+
+            <div class="list-item">
+                <div class="list-item-main">
+                    <div class="list-item-icon blue">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="list-item-info">
+                        <p class="list-item-title">المحافظ النشطة</p>
+                        <p class="list-item-subtitle">من إجمالي {{ total_wallets|default:"0" }} محفظة</p>
+                    </div>
+                </div>
+                <span class="list-item-value">{{ active_wallets|default:"0" }}</span>
+            </div>
+
+            <div class="list-item">
+                <div class="list-item-main">
+                    <div class="list-item-icon purple">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="list-item-info">
+                        <p class="list-item-title">المستخدمين</p>
+                        <p class="list-item-subtitle">إجمالي مستخدمي النظام</p>
+                    </div>
+                </div>
+                <span class="list-item-value">{{ total_users|default:"0" }}</span>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Tables Row -->
+<div class="grid-tables">
+    <!-- Recent Transactions -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">آخر العمليات</h3>
+            <a href="{% url 'dashboard:transaction_list' %}" class="card-link">
+                عرض الكل <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>المبلغ</th>
+                        <th>المحفظة</th>
+                        <th>الكاشير</th>
+                        <th>الوقت</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in recent_transactions %}
+                    <tr>
+                        <td><span class="amount">{{ t.amount|floatformat:2 }} ر.ي</span></td>
+                        <td>
+                            <div class="wallet-cell">
+                                {% if t.wallet.logo %}
+                                    <img src="{{ t.wallet.logo.url }}" alt="{{ t.wallet.name }}">
+                                {% else %}
+                                    <div class="wallet-placeholder"><i class="fas fa-wallet"></i></div>
+                                {% endif %}
+                                <span>{{ t.wallet.name }}</span>
+                            </div>
+                        </td>
+                        <td>{{ t.cashier.full_name|default:"--" }}</td>
+                        <td style="color:#94a3b8;font-size:12px;">{{ t.created_at|timesince }} مضت</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">
+                            <div class="table-empty">
+                                <i class="fas fa-inbox"></i>
+                                <p>لا توجد عمليات حالياً</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Open Shift Sessions -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">الورديات المفتوحة</h3>
+            <a href="{% url 'dashboard:shift_session_list' %}" class="card-link">
+                عرض الكل <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+            {% for session in open_sessions %}
+            <div class="list-item">
+                <div class="list-item-main">
+                    <div class="list-item-icon green">
+                        <i class="fas fa-door-open"></i>
+                    </div>
+                    <div class="list-item-info">
+                        <p class="list-item-title">{{ session.shift.name|default:"وردية" }}</p>
+                        <p class="list-item-subtitle">{{ session.cashier.full_name|default:"--" }} - {{ session.branch.name|default:"--" }}</p>
+                    </div>
+                </div>
+                <div style="text-align:left;flex-shrink:0;">
+                    <span class="status-badge status-active">مفتوحة</span>
+                    <p style="font-size:11px;color:#94a3b8;margin-top:4px;">{{ session.opened_at|timesince }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="table-empty">
+                <i class="fas fa-clock"></i>
+                <p>لا توجد ورديات مفتوحة حالياً</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Bottom Row -->
+<div class="grid-bottom">
+    <!-- Top Wallets -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">أفضل المحافظ</h3>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+            {% for wallet in top_wallets %}
+            <div class="list-item">
+                <div class="list-item-main">
+                    {% if wallet.logo %}
+                        <img src="{{ wallet.logo.url }}" alt="{{ wallet.name }}" style="width:40px;height:40px;border-radius:8px;object-fit:cover;flex-shrink:0;">
+                    {% else %}
+                        <div class="list-item-icon primary" style="width:40px;height:40px;">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                    {% endif %}
+                    <div class="list-item-info">
+                        <p class="list-item-title">{{ wallet.name }}</p>
+                        <p class="list-item-subtitle">{{ wallet.branch.name|default:"--" }}</p>
+                    </div>
+                </div>
+                <span class="list-item-value">{{ wallet.total_amount|default:0|floatformat:2 }} <small style="font-size:11px;">ر.ي</small></span>
+            </div>
+            {% empty %}
+            <div class="table-empty">
+                <i class="fas fa-wallet"></i>
+                <p>لا توجد بيانات</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Top Branches -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">أفضل الفروع</h3>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+            {% for branch in branch_stats %}
+            <div class="list-item">
+                <div class="list-item-main">
+                    <div class="list-item-icon primary" style="width:40px;height:40px;">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="list-item-info">
+                        <p class="list-item-title">{{ branch.name }}</p>
+                        <p class="list-item-subtitle">{{ branch.trans_count|default:0 }} عملية</p>
+                    </div>
+                </div>
+                <span class="list-item-value">{{ branch.trans_total|default:0|floatformat:2 }} <small style="font-size:11px;">ر.ي</small></span>
+            </div>
+            {% empty %}
+            <div class="table-empty">
+                <i class="fas fa-store"></i>
+                <p>لا توجد بيانات</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Pass chart data from Django to JS
+window.dailyChartData = {
+    labels: {{ daily_labels|safe|default:"[]" }},
+    amounts: {{ daily_amounts|safe|default:"[]" }},
+    counts: {{ daily_counts|safe|default:"[]" }}
+};
+
+// Fallback: Fetch from API if no template data
+if (!window.dailyChartData.labels || window.dailyChartData.labels.length === 0) {
+    fetch('/dashboard/api/chart-data/?type=daily')
+        .then(r => r.json())
+        .then(data => {
+            if (data.labels) {
+                data.labels = data.labels.map(d => {
+                    const date = new Date(d);
+                    return date.toLocaleDateString('ar-SA', { weekday: 'short', day: 'numeric' });
+                });
+            }
+            window.dailyChartData = data;
+            // Re-init chart if Dashboard.Charts exists
+            if (window.Dashboard && window.Dashboard.charts) {
+                // Chart will auto-init on page load via dashboard.js
+            }
+        })
+        .catch(err => console.warn('Chart fetch failed:', err));
+}
+</script>
+{% endblock %}
