@@ -139,3 +139,297 @@ D:\FlutterApps\electropay\dashboard\views.py changed, reloading.
 Watching for file changes with StatReloader
 D:\FlutterApps\electropay\dashboard\views.py changed, reloading.
 Watching for file changes with StatReloader
+"GET / HTTP/1.1" 200 23566
+Not Found: /dashboard/api/chart-data/
+"GET /dashboard/api/chart-data/?type=daily HTTP/1.1" 404 12430
+"GET / HTTP/1.1" 200 23566
+Not Found: /dashboard/api/chart-data/
+"GET /dashboard/api/chart-data/?type=daily HTTP/1.1" 404 12430
+"GET / HTTP/1.1" 200 23566
+"GET /static/css/dashboard.css HTTP/1.1" 200 28910
+"GET /static/js/dashboard.js HTTP/1.1" 200 5322
+Not Found: /dashboard/api/chart-data/
+"GET /dashboard/api/chart-data/?type=daily HTTP/1.1" 404 12430
+"GET /static/images/logo.png HTTP/1.1" 200 65939
+"GET / HTTP/1.1" 200 23566
+Not Found: /dashboard/api/chart-data/
+"GET /dashboard/api/chart-data/?type=daily HTTP/1.1" 404 12430
+Not Found: /.well-known/appspecific/com.chrome.devtools.json
+"GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 12488
+"GET / HTTP/1.1" 200 23566
+"GET /static/css/dashboard.css HTTP/1.1" 200 28910
+"GET /static/js/dashboard.js HTTP/1.1" 200 5322
+Not Found: /.well-known/appspecific/com.chrome.devtools.json
+"GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 12488
+Not Found: /dashboard/api/chart-data/
+"GET /dashboard/api/chart-data/?type=daily HTTP/1.1" 404 12430
+"GET /static/images/logo.png HTTP/1.1" 200 65939
+"GET / HTTP/1.1" 200 23566
+Not Found: /dashboard/api/chart-data/
+"GET /dashboard/api/chart-data/?type=daily HTTP/1.1" 404 12430
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /static/js/dashboard.js HTTP/1.1" 304 0
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /static/js/dashboard.js HTTP/1.1" 304 0
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /static/css/dashboard.css HTTP/1.1" 200 28910
+"GET /static/js/dashboard.js HTTP/1.1" 200 5322
+"GET /static/images/logo.png HTTP/1.1" 200 65939
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /static/js/dashboard.js HTTP/1.1" 200 5322
+"GET /static/css/dashboard.css HTTP/1.1" 200 28910
+"GET /static/images/logo.png HTTP/1.1" 200 65939
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /static/js/dashboard.js HTTP/1.1" 200 5322
+"GET /static/css/dashboard.css HTTP/1.1" 200 28910
+"GET /static/images/logo.png HTTP/1.1" 200 65939
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /static/js/dashboard.js HTTP/1.1" 200 5322
+"GET /static/css/dashboard.css HTTP/1.1" 200 28910
+"GET /static/images/logo.png HTTP/1.1" 200 65939
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /static/js/dashboard.js HTTP/1.1" 304 0
+"GET /wallets/ HTTP/1.1" 200 11199
+"GET /wallets/ HTTP/1.1" 200 11202
+"GET /wallets/ HTTP/1.1" 200 11212
+Internal Server Error: /wallets/
+Traceback (most recent call last):
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\urls\resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'logout' not found. 'logout' is not a valid view function or pattern name.
+"GET /wallets/ HTTP/1.1" 500 148396
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 12377
+Internal Server Error: /wallets/
+Traceback (most recent call last):
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\urls\resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'logout' not found. 'logout' is not a valid view function or pattern name.
+"GET /wallets/ HTTP/1.1" 500 148150
+Internal Server Error: /wallets/
+Traceback (most recent call last):
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\urls\resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'logout' not found. 'logout' is not a valid view function or pattern name.
+"GET /wallets/ HTTP/1.1" 500 148396
+Internal Server Error: /wallets/
+Traceback (most recent call last):
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 1000, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\base.py", line 961, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\template\defaulttags.py", line 479, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\FlutterApps\electropay\myenv\Lib\site-packages\django\urls\resolvers.py", line 851, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'logout' not found. 'logout' is not a valid view function or pattern name.
+"GET /wallets/ HTTP/1.1" 500 148150
+"GET /wallets/ HTTP/1.1" 200 11228
+"GET /static/js/dashboard.js HTTP/1.1" 304 0
+"GET /wallets/ HTTP/1.1" 200 11228
+"GET /wallets/ HTTP/1.1" 200 11234
+"GET /wallets/ HTTP/1.1" 200 11234
+"GET /wallets/ HTTP/1.1" 200 11251
+"GET /static/js/dashboard.js HTTP/1.1" 304 0
+"GET /wallets/ HTTP/1.1" 200 11251
+"GET /wallets/ HTTP/1.1" 200 11252
+"GET /static/js/dashboard_.js HTTP/1.1" 200 27956
+"GET /wallets/ HTTP/1.1" 200 11252
+"GET /wallets/ HTTP/1.1" 200 11252
+"GET /wallets/ HTTP/1.1" 200 11252
+"GET /wallets/ HTTP/1.1" 200 11252
+"GET /wallets/ HTTP/1.1" 200 11256
+"GET /wallets/ HTTP/1.1" 200 11266
+"GET /wallets/ HTTP/1.1" 200 11266
+"GET /wallets/ HTTP/1.1" 200 11273
+"GET /wallets/ HTTP/1.1" 200 11273
+"GET /wallets/add/ HTTP/1.1" 200 12246
+"GET /wallets/add/ HTTP/1.1" 200 12246
+"GET /wallets/add/ HTTP/1.1" 200 12246
+"GET /wallets/ HTTP/1.1" 200 11273
+"GET /wallets/ HTTP/1.1" 200 12706
+"GET /wallets/ HTTP/1.1" 200 12706
